@@ -33,7 +33,7 @@ class StringFilter;
 /**
  * \brief StrictScanner
  * \details This filter is meant for quickly browsing a FileSet (a set of files on
- * disk). Special consideration are taken so as to read the mimimum amount of
+ * disk). Special consideration are taken so as to read the minimum amount of
  * information in each file in order to retrieve the user specified set of
  * DICOM Attribute.
  *
@@ -56,7 +56,7 @@ class GDCM_EXPORT StrictScanner : public Subject
 {
   friend std::ostream& operator<<(std::ostream &_os, const StrictScanner &s);
 public:
-  StrictScanner():Values(),Filenames(),Mappings() {}
+  StrictScanner():Values(),Filenames(),Mappings(),Progress(0.0) {}
   ~StrictScanner() override;
 
   /// struct to map a filename to a value
@@ -153,7 +153,7 @@ public:
   /// \warning Tag 't' should have been added via AddTag() prior to the Scan() call !
   const char* GetValue(const char *filename, Tag const &t) const;
 
-  /// for wrapped language: instanciate a reference counted object
+  /// for wrapped language: instantiate a reference counted object
   static SmartPointer<StrictScanner> New() { return new StrictScanner; }
 
 protected:

@@ -6,7 +6,7 @@
 # gdcmanon
 
 
-if(WIN32 AND NOT CYGWIN)
+if(WIN32 AND NOT CYGWIN AND NOT MINGW)
   include_directories(
     "${GDCM_SOURCE_DIR}/Utilities/getopt"
   )
@@ -115,6 +115,12 @@ if(GDCM_USE_SYSTEM_POPPLER)
   if(LIBPOPPLER_UNICODEMAP_HAS_CONSTMAPUNICODE)
     list(APPEND libpoppler_flags -DLIBPOPPLER_UNICODEMAP_HAS_CONSTMAPUNICODE)
   endif()
+  CHECK_CXX_SOURCE_COMPILES(
+    "\#include <poppler/PDFDoc.h>\nint main() { std::optional<GooString> ownerPW, userPW; PDFDoc d((BaseStream*)nullptr,ownerPW,userPW); return 0;}"
+    LIBPOPPLER_PDFDOC_HAS_OPTIONAL)
+  if(LIBPOPPLER_PDFDOC_HAS_OPTIONAL)
+    list(APPEND libpoppler_flags -DLIBPOPPLER_PDFDOC_HAS_OPTIONAL)
+  endif()
   if(libpoppler_flags)
     string(REPLACE ";" " " libpoppler_flags_string "${libpoppler_flags}")
     set_source_files_properties(
@@ -183,7 +189,7 @@ foreach(exename ${GDCM_EXECUTABLE_NAME})
   if(GDCM_EXECUTABLE_PROPERTIES)
     set_target_properties(${exename} PROPERTIES ${GDCM_EXECUTABLE_PROPERTIES})
   endif()
-  if(WIN32 AND NOT CYGWIN)
+  if(WIN32 AND NOT CYGWIN AND NOT MINGW)
     target_link_libraries(${exename} gdcmgetopt)
   endif()
   if(NOT GDCM_INSTALL_NO_RUNTIME)

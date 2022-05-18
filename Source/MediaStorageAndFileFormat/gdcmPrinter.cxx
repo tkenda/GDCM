@@ -369,7 +369,7 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
       {
       // TODO It would be nice to have a TagToVR<0x0028,0x0103>::VRType
       // and TagToVM<0x0028,0x0103>::VMType ...
-      // to be able to have an independant Standard from implementation :)
+      // to be able to have an independent Standard from implementation :)
       const ImplicitDataElement &pixel_rep =
         ds.GetDataElement( Tag(0x0028, 0x0103) );
       const Value &value = pixel_rep.GetValue();
@@ -843,7 +843,6 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     // retired element
     else if( retired )
       {
-      assert( t.IsPublic() || t.GetElement() == 0x0 ); // Is there such thing as private and retired element ?
       os << " " << GDCM_TERMINAL_VT100_FOREGROUND_RED << GDCM_TERMINAL_VT100_UNDERLINE;
       os << name;
       os << GDCM_TERMINAL_VT100_NORMAL;
